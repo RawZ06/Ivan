@@ -25,7 +25,7 @@ func main() {
 	ebiten.SetRunnableOnUnfocused(true)
 	ebiten.SetWindowResizable(true)
 	// Can't move an undecorated window on Windows… Such good UX.
-	if runtime.GOOS != "windows" {
+	if runtime.GOOS == "linux" {
 		ebiten.SetWindowDecorated(false)
 	}
 
