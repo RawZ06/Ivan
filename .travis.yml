@@ -1,0 +1,30 @@
+language: go
+sudo: false
+
+before_install:
+    # gox simplifies building for multiple architectures
+    - go get github.com/mitchellh/gox
+
+install:
+    - sudo apt-get install pandoc
+
+script:
+    - make
+    - make release
+deploy:
+    provider: master
+    skip_cleanup: true
+    api_key:
+        # Your *encrypted* GitHub key, as the output of the Travis CI CLI tool.
+        secure: Ww20KHljHmIuwaiAw5nMBbOspHnmdFTsdRSXL69Ck/+5KSpsFgUFdVB+CpCuQt9O4EBw1TIZL3n1i4g9+hzQbCXTYlpZI8a8FvyUZYB/3lmDGRQOLCCLMayYCxkYImLR0Hl6/pzYGChOl2RKP9rmMlPfn4AEImAvGsG6kfYQm0IlS0PonNL5GbE7aOdB4WIGC/fv6nSvCs+4sqyncyqhtBvilediR5D4hO/z0s5tAARfRmf7UWEYWm3xrYtYiRPaczIET2SILMCU5fpV/8AQtlRpSlAUlU+eKuPi53tNqJv0kVHgCEeEzGnNuybRbduoLB6E/pG79eVHtAvdc703RQX+SqpX9MjYRSOYq8JFKNCUYILCVoxAMKV/ZxLPegXyo5AXAGdMfHkw7YEt3v+0M1ZdYS2hFM1nGj7zHJNrzryyQcD4elWwNRaxuaSYaVv7y9iT3Few0rsusKrXNFMfnlBhwLNuBF891GuwqenazGdvKB04G4OlqW45VtIFcsA33E7B/iylVdEHl13uE7XKH4gZ8sIai23cbVxtKdhgmqxjDb0YMPjI6UG+pZ0xQAFy66D5X2D07yaIWklJD/ZdLdz4mRrGNDfu9CaBXaOJjSlH7PPM8vgRV+Bu7Lw6PeyiIHDQxhbsRcHXoRcBP6SDunF7nnGi6dOt5rcEBGHhv3o=
+    file:
+        # The names of the binaries to output, based on the -output template passed to gox.
+        - ivan_release_$(shell git describe --tags 2>/dev/null || echo "unknown")/ivan.linux64
+        - ivan_release_$(shell git describe --tags 2>/dev/null || echo "unknown")/ivan.exe
+        - ivan_release_$(shell git describe --tags 2>/dev/null || echo "unknown")/ivan.app
+    on:
+        # What to repository to build
+        repo: RawZ06/Ivan
+        # Only build binaries for tagged commits
+        tags: true
+        condition: $LATEST = true
