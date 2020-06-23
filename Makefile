@@ -1,7 +1,7 @@
 EXEC=./$(shell basename "$(shell pwd)")
 VERSION ?= $(shell git describe --tags 2>/dev/null || echo "unknown")
 RELEASE_DIR=ivan_release_$(VERSION)
-BUILDFLAGS=-ldflags '-X main.Version=${VERSION}'
+BUILDFLAGS=-ldflags '-X main.Version=${VERSION}' -mod=mod
 
 all: $(EXEC)
 
