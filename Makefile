@@ -29,6 +29,10 @@ release:
 	mv "$(EXEC).exe" "$(RELEASE_DIR)/ivan.exe"
 	zip -r "$(RELEASE_DIR)_window64.zip" "$(RELEASE_DIR)"
 
+	GOOS="darwin" GOARCH="amd64" make $(EXEC)
+	mv "$(EXEC)" "$(RELEASE_DIR)/ivan.app"
+	zip -r "$(RELEASE_DIR)_darwin.zip" "$(RELEASE_DIR)"
+
 debian-deps:
 	# Ebiten
 	sudo apt install libc6-dev libglu1-mesa-dev libgl1-mesa-dev libxcursor-dev libxi-dev libxinerama-dev libxrandr-dev libxxf86vm-dev libasound2-dev pkg-config
